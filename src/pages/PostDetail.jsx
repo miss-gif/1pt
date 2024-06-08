@@ -8,10 +8,9 @@ const PostDetail = ({ posts, onDelete }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const post = posts.find((post) => post.postId === parseInt(postId, 10)); // 검색
+  const post = posts.find((post) => post.postId === parseInt(postId, 10));
 
   const handleDelete = () => {
-    console.log(postId); // 삭제할 게시물의 postId
     onDelete(post.postId);
     navigate("/");
   };
@@ -26,30 +25,48 @@ const PostDetail = ({ posts, onDelete }) => {
 
   return (
     <>
-      <p>디테일페이지</p>
-      {post ? (
-        <div>
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-          {/* ... (나머지 게시물 정보) */}
-          <button onClick={() => navigate(`/edit/${postId}`)}>수정</button>
-          <button onClick={handleDeleteClick}>삭제</button>
+      <button onClick={() => navigate(`/post/${parseInt(postId, 10) - 1}`)}>
+        이전글
+      </button>
+      <button onClick={() => navigate(`/post/${parseInt(postId, 10) + 1}`)}>
+        다음글
+      </button>
+      <button onClick={() => navigate("/")}>목록</button>
+      <DetailContainer>
+        <p>디테일페이지</p>
+        {post ? (
+          <div>
+            <DetailTitle>{post.title}</DetailTitle>
+            <DetailInfo>작성자: {post.author}</DetailInfo>
+            <DetailInfo>작성일: {post.date}</DetailInfo>
+            <DetailInfo>조회수: {post.views}</DetailInfo>
+            <DetailInfo>좋아요: {post.likes}</DetailInfo>
 
-          <StyledModal
-            isOpen={isModalOpen}
-            onRequestClose={handleCloseModal}
-            contentLabel="삭제 확인"
-          >
-            <p>정말로 삭제하시겠습니까?</p>
-            <div>
-              <button onClick={handleDelete}>삭제</button>
-              <button onClick={handleCloseModal}>취소</button>
-            </div>
-          </StyledModal>
-        </div>
-      ) : (
-        <p>게시물을 찾을 수 없습니다.</p>
-      )}
+            <ButtonContainer>
+              <ActionButton onClick={() => navigate(`/edit/${postId}`)}>
+                수정
+              </ActionButton>
+              <ActionButton className="delete" onClick={handleDeleteClick}>
+                삭제
+              </ActionButton>
+            </ButtonContainer>
+
+            <StyledModal
+              isOpen={isModalOpen}
+              onRequestClose={handleCloseModal}
+              contentLabel="삭제 확인"
+            >
+              <p>정말로 삭제하시겠습니까?</p>
+              <div>
+                <button onClick={handleDelete}>삭제</button>
+                <button onClick={handleCloseModal}>취소</button>
+              </div>
+            </StyledModal>
+          </div>
+        ) : (
+          <p>게시물을 찾을 수 없습니다.</p>
+        )}
+      </DetailContainer>
     </>
   );
 };
@@ -83,5 +100,48 @@ const StyledModal = styled(Modal)`
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+`;
+
+const DetailContainer = styled.div`
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: sans-serif;
+`;
+
+const DetailTitle = styled.h2`
+  margin-bottom: 10px;
+`;
+
+const DetailInfo = styled.p`
+  margin: 5px 0;
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 20px;
+`;
+
+const ActionButton = styled.button`
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &.delete {
+    background-color: #dc3545;
+
+    &:hover {
+      background-color: #c82333;
+    }
   }
 `;

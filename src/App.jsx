@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BoardList from "./pages/BoardList"; // 게시판 리스트 페이지
 import WritePost from "./pages/WritePost"; // 게시글 작성 페이지
@@ -8,11 +8,11 @@ import { dummy } from "./pages/dummy";
 
 function App() {
   const [posts, setPosts] = useState(dummy); // 게시글 데이터 상태
-  const postIdRef = useRef(27); // useRef를 App 컴포넌트에서 관리
+  const [postId, setPostId] = useState(27); // 상태로 postId 관리
 
   const addPost = (newPost) => {
     setPosts([newPost, ...posts]); // 새로운 게시글 추가
-    postIdRef.current += 1; // postId 업데이트
+    setPostId(postId + 1); // postId 업데이트
   };
 
   const handleDelete = (postId) => {
@@ -24,7 +24,7 @@ function App() {
     const updatedPosts = posts.map((post) =>
       post.postId === updatedPost.postId ? updatedPost : post
     );
-    setPosts(updatedPosts);
+    setPosts(updatedPosts); // 수정된 게시글 목록으로 상태 업데이트
   };
 
   return (
@@ -33,7 +33,7 @@ function App() {
         <Route path="/" element={<BoardList posts={posts} />} />
         <Route
           path="/write"
-          element={<WritePost addPost={addPost} postIdRef={postIdRef} />}
+          element={<WritePost addPost={addPost} postId={postId} />}
         />
         <Route
           path="/post/:postId"
@@ -41,9 +41,7 @@ function App() {
         />
         <Route
           path="/edit/:postId"
-          element={<EditPost />}
-          posts={posts}
-          onUpdate={handleUpdate}
+          element={<EditPost posts={posts} onUpdate={handleUpdate} />}
         />
       </Routes>
     </BrowserRouter>

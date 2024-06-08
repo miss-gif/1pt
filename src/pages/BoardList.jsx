@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 
 function BoardList({ posts, onDelete }) {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5); // 페이지당 게시물 수
   const [filteredPosts, setFilteredPosts] = useState(posts); // 검색 결과 필터링된 게시물
+
+  const handleRowClick = (postId) => {
+    navigate(`/post/${postId}`);
+  };
 
   useEffect(() => {
     setFilteredPosts(posts);
@@ -32,10 +38,10 @@ function BoardList({ posts, onDelete }) {
   };
 
   return (
-    <div>
+    <BoardContainer>
       <h2>게시판</h2>
       <input type="text" placeholder="검색어 입력" onChange={handleSearch} />
-      <table>
+      <BoardTable>
         <thead>
           <tr>
             <th>번호</th>
@@ -48,29 +54,108 @@ function BoardList({ posts, onDelete }) {
         </thead>
         <tbody>
           {currentPosts.map((post) => (
-            <tr key={post.postId}>
-              <Link to={`/post/${post.postId}`}>
-                <td>{post.postId}</td>
-                <td>{post.title}</td>
-                <td>{post.author}</td>
-                <td>{post.date}</td>
-                <td>{post.views}</td>
-                <td>{post.likes}</td>
-              </Link>
-            </tr>
+            <PostClickArea
+              key={post.postId}
+              onClick={() => handleRowClick(post.postId)}
+            >
+              <td>{post.postId}</td>
+              <td>{post.title}</td>
+              <td>{post.author}</td>
+              <td>{post.date}</td>
+              <td>{post.views}</td>
+              <td>{post.likes}</td>
+            </PostClickArea>
           ))}
         </tbody>
-      </table>
-      <div>
+      </BoardTable>
+      <Pagination>
         {pageNumbers.map((number) => (
           <button key={number} onClick={() => setCurrentPage(number)}>
             {number}
           </button>
         ))}
-      </div>
-      <Link to="/write">게시글 쓰기</Link>
-    </div>
+      </Pagination>
+      <WriteButton to="/write">게시글 쓰기</WriteButton>
+    </BoardContainer>
   );
 }
 
 export default BoardList;
+
+const BoardContainer = styled.div`
+  width: 80%;
+  margin: 20px auto;
+  font-family: sans-serif;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+`;
+
+const BoardTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+  }
+`;
+
+const WriteButton = styled(Link)`
+  display: block;
+  width: fit-content;
+  padding: 10px 20px;
+  margin: 20px auto 0;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const PostClickArea = styled.tr`
+  cursor: pointer;
+`;
