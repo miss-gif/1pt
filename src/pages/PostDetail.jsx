@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "@emotion/styled";
+import CommentComponent from "./CommentContainer";
 
 const PostDetail = ({ posts, onDelete }) => {
   const { postId } = useParams();
@@ -37,6 +38,7 @@ const PostDetail = ({ posts, onDelete }) => {
         {post ? (
           <div>
             <DetailTitle>{post.title}</DetailTitle>
+            <DetailInfo>{post.content}</DetailInfo>
             <DetailInfo>작성자: {post.author}</DetailInfo>
             <DetailInfo>작성일: {post.date}</DetailInfo>
             <DetailInfo>조회수: {post.views}</DetailInfo>
@@ -66,6 +68,7 @@ const PostDetail = ({ posts, onDelete }) => {
         ) : (
           <p>게시물을 찾을 수 없습니다.</p>
         )}
+        <CommentComponent />
       </DetailContainer>
     </>
   );
