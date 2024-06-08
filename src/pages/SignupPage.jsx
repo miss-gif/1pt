@@ -1,51 +1,83 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function SignupPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+const SignupPage = () => {
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+  const [message, setMessage] = useState("");
 
-    if (storedUsers.find((u) => u.username === username)) {
-      setError("이미 존재하는 아이디입니다.");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.password !== form.confirmPassword) {
+      setMessage("Passwords do not match");
       return;
     }
 
-    storedUsers.push({ username, password });
-    localStorage.setItem("users", JSON.stringify(storedUsers));
-    navigate("/login"); // 회원가입 성공 시 로그인 페이지로 이동
+    const users = JSON.parse(sessionStorage.getItem("users")) || [];
+    const userExists = users.some((user) => user.username === form.username);
+
+    if (userExists) {
+      setMessage("Username already exists");
+    } else {
+      users.push({ username: form.username, password: form.password });
+      sessionStorage.setItem("users", JSON.stringify(users));
+      setMessage("Signup successful!");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000); // 2 seconds delay
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>회원가입페이지</h2>
-      <div>
-        <label htmlFor="username">아이디:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">비밀번호:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button type="submit">회원가입</button>
-    </form>
+    <div>
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Confirm Password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
   );
-}
+};
 
 export default SignupPage;

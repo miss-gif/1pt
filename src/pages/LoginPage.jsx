@@ -1,53 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate(); // useNavigate 훅 사용
+const LoginPage = () => {
+  const [form, setForm] = useState({ username: "", password: "" });
+  const [message, setMessage] = useState("");
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const user = storedUsers.find(
-      (u) => u.username === username && u.password === password
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const users = JSON.parse(sessionStorage.getItem("users")) || [];
+    const user = users.find(
+      (user) =>
+        user.username === form.username && user.password === form.password
     );
 
     if (user) {
-      sessionStorage.setItem("loggedInUser", username); // 세션에 로그인 정보 저장
-      navigate("/dashboard"); // 로그인 성공 시 대시보드 페이지로 이동
+      login(form.username);
+      setMessage("Login successful!");
+      navigate("/");
     } else {
-      setError("아이디 또는 비밀번호가 일치하지 않습니다.");
+      setMessage("Invalid username or password");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>로그인페이지</h2>
-      <div>
-        <label htmlFor="username">아이디:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">비밀번호:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button type="submit">로그인</button>
-      {/* 회원가입, 비밀번호 찾기 링크 등 */}
-    </form>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
   );
-}
+};
 
 export default LoginPage;

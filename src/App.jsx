@@ -9,6 +9,7 @@ import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import Header from "./pages/header";
 import SignupPage from "./pages/SignupPage";
+import { AuthProvider } from "./pages/AuthContext";
 
 function App() {
   const [posts, setPosts] = useState(dummy); // 게시글 데이터 상태
@@ -32,28 +33,30 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<BoardList posts={posts} />} />
-        <Route
-          path="/write"
-          element={<WritePost addPost={addPost} postIdRef={postIdRef} />}
-        />
-        <Route
-          path="/post/:postId"
-          element={<PostDetail posts={posts} onDelete={handleDelete} />}
-        />
-        <Route
-          path="/edit/:postId"
-          element={<EditPost posts={posts} onUpdate={handleUpdate} />}
-        />
-        {/* 추가된 라우터 */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<BoardList posts={posts} />} />
+          <Route
+            path="/write"
+            element={<WritePost addPost={addPost} postIdRef={postIdRef} />}
+          />
+          <Route
+            path="/post/:postId"
+            element={<PostDetail posts={posts} onDelete={handleDelete} />}
+          />
+          <Route
+            path="/edit/:postId"
+            element={<EditPost posts={posts} onUpdate={handleUpdate} />}
+          />
+          {/* 추가된 라우터 */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
