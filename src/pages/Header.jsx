@@ -11,7 +11,7 @@ const Header = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/">게시판</Link>
+            <Link to="/notice">게시판</Link>
           </li>
           <li>
             <Link to="/calendar">달력</Link>

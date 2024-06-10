@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-function BoardList({ posts, onDelete }) {
+function Notice({ posts, onDelete }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5); // 페이지당 게시물 수
+  const [postsPerPage] = useState(3); // 페이지당 게시물 수
   const [filteredPosts, setFilteredPosts] = useState(posts); // 검색 결과 필터링된 게시물
 
   const handleRowClick = (postId) => {
-    navigate(`/post/${postId}`);
+    navigate(`/notice/post/${postId}`);
   };
 
   useEffect(() => {
@@ -75,12 +75,12 @@ function BoardList({ posts, onDelete }) {
           </button>
         ))}
       </Pagination>
-      <WriteButton to="/write">게시글 쓰기</WriteButton>
+      <WriteButton to="/notice/write">게시글 쓰기</WriteButton>
     </BoardContainer>
   );
 }
 
-export default BoardList;
+export default Notice;
 
 const BoardContainer = styled.div`
   width: 80%;

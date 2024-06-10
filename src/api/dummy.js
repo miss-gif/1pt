@@ -224,13 +224,4 @@ export const dummy = [
     views: 26,
     likes: 67,
   },
-  {
-    postId: 26,
-    title: "게시글 제목 26",
-    content: "게시글 내용 26. Lorem ipsum dolor sit amet...",
-    author: "작성자26",
-    date: "2024-03-05",
-    views: 51,
-    likes: 16,
-  },
 ];

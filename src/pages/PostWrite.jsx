@@ -5,7 +5,7 @@ import Modal from "react-modal"; // react-modal 라이브러리 사용
 
 Modal.setAppElement("#root"); // 모달 앱 엘리먼트 설정
 
-const WritePost = ({ addPost, postIdRef }) => {
+const PostWrite = ({ addPost, postIdRef }) => {
   const [showModal, setShowModal] = useState(false); // 모달 상태
   const navigate = useNavigate(); // useNavigate 훅 사용
   const [title, setTitle] = useState("");
@@ -53,9 +53,13 @@ const WritePost = ({ addPost, postIdRef }) => {
         <h3>게시글 작성 완료</h3>
         <p>어디로 이동하시겠습니까?</p>
         <div>
-          <button onClick={() => handleCloseModal("/")}>게시판 목록</button>
+          <button onClick={() => handleCloseModal("/notice")}>
+            게시판 목록
+          </button>
           <button
-            onClick={() => handleCloseModal(`/post/${postIdRef.current - 1}`)}
+            onClick={() =>
+              handleCloseModal(`/notice/post/${postIdRef.current - 1}`)
+            }
           >
             게시글 상세
           </button>
@@ -64,7 +68,7 @@ const WritePost = ({ addPost, postIdRef }) => {
     </FormContainer>
   );
 };
-export default WritePost;
+export default PostWrite;
 
 const FormContainer = styled.div`
   display: flex;

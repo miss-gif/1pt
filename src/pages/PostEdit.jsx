@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 
-const EditPost = ({ posts, onUpdate }) => {
+const PostEdit = ({ posts, onUpdate }) => {
   console.log("posts", posts);
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const EditPost = ({ posts, onUpdate }) => {
     };
 
     onUpdate(updatedPost);
-    navigate(`/post/${postId}`);
+    navigate(`/notice/post/${postId}`);
   };
 
   return (
@@ -62,7 +62,7 @@ const EditPost = ({ posts, onUpdate }) => {
   );
 };
 
-export default EditPost;
+export default PostEdit;
 
 const Container = styled.div`
   display: flex;

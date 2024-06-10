@@ -13,7 +13,7 @@ const PostDetail = ({ posts, onDelete }) => {
 
   const handleDelete = () => {
     onDelete(post.postId);
-    navigate("/");
+    navigate("/notice");
   };
 
   const handleDeleteClick = () => {
@@ -26,13 +26,17 @@ const PostDetail = ({ posts, onDelete }) => {
 
   return (
     <>
-      <button onClick={() => navigate(`/post/${parseInt(postId, 10) - 1}`)}>
+      <button
+        onClick={() => navigate(`/notice/post/${parseInt(postId, 10) - 1}`)}
+      >
         이전글
       </button>
-      <button onClick={() => navigate(`/post/${parseInt(postId, 10) + 1}`)}>
+      <button
+        onClick={() => navigate(`/notice/post/${parseInt(postId, 10) + 1}`)}
+      >
         다음글
       </button>
-      <button onClick={() => navigate("/")}>목록</button>
+      <button onClick={() => navigate("/notice")}>목록</button>
       <DetailContainer>
         <p>디테일페이지</p>
         {post ? (
@@ -45,7 +49,7 @@ const PostDetail = ({ posts, onDelete }) => {
             <DetailInfo>좋아요: {post.likes}</DetailInfo>
 
             <ButtonContainer>
-              <ActionButton onClick={() => navigate(`/edit/${postId}`)}>
+              <ActionButton onClick={() => navigate(`/notice/edit/${postId}`)}>
                 수정
               </ActionButton>
               <ActionButton className="delete" onClick={handleDeleteClick}>
