@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal"; // react-modal 라이브러리 사용
+import "./PostWrite.scss";
 
 Modal.setAppElement("#root"); // 모달 앱 엘리먼트 설정
 
@@ -32,19 +33,44 @@ const PostWrite = ({ addPost, postIdRef }) => {
   };
 
   return (
-    <FormContainer>
-      <Input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목을 입력하세요"
-      />
-      <Textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="내용을 입력하세요"
-      />
-      <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
+    <div className="inner">
+      <div className="post-add">
+        <div className="post-add__top">
+          <h2>글쓰기</h2>
+          <button className="btn aa" onClick={handleSubmit}>
+            등록
+          </button>
+
+          {/* 구현 보류 */}
+          <div className="form-group none">
+            <label htmlFor="category">카테고리</label>
+            <select id="category" name="category">
+              <option value="공지사항">공지사항</option>
+              <option value="자유게시판">자유게시판</option>
+              <option value="질문답변">질문답변</option>
+            </select>
+          </div>
+
+          <form className="form-group">
+            <label htmlFor="title">제목</label>
+            <input
+              type="text"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="제목을 입력하세요"
+            />
+            <label htmlFor="content">내용</label>
+            <textarea
+              value={content}
+              name="content"
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="내용을 입력하세요"
+            />
+          </form>
+        </div>
+      </div>
+      {/* 모달 */}
       <StyledModal
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
@@ -65,38 +91,10 @@ const PostWrite = ({ addPost, postIdRef }) => {
           </button>
         </div>
       </StyledModal>
-    </FormContainer>
+    </div>
   );
 };
 export default PostWrite;
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Textarea = styled.textarea`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical; /* 세로 크기 조절만 가능 */
-`;
-
-const SubmitButton = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
 
 const StyledModal = styled(Modal)`
   position: absolute;
