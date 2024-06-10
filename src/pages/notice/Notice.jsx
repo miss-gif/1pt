@@ -47,7 +47,7 @@ function Notice({ posts }) {
             {/* <button>뷰icon</button> */}
             {/* <button>뷰icon</button> */}
             <Link to="/notice/write" className="btn">
-              게시글 쓰기
+              글쓰기
             </Link>
           </div>
         </div>
@@ -80,7 +80,7 @@ function Notice({ posts }) {
 
         <div className="notice__bottom">
           <Link to="/notice/write" className="btn">
-            게시글 쓰기
+            글쓰기
           </Link>
         </div>
 

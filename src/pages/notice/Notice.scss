@@ -65,8 +65,9 @@
 }
 
 .search-container {
-  text-align: center;
-  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   input[type="text"] {
     padding: 8px;
     width: 200px;
