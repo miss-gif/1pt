@@ -37,7 +37,7 @@ const PostWrite = ({ addPost, postIdRef }) => {
       <div className="post-add">
         <div className="post-add__top">
           <h2>글쓰기</h2>
-          <button className="btn aa" onClick={handleSubmit}>
+          <button className="btn" onClick={handleSubmit}>
             등록
           </button>
 

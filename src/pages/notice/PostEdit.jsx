@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
+import "./PostEdit.scss";
 
 const PostEdit = ({ posts, onUpdate }) => {
   console.log("posts", posts);
@@ -45,56 +45,45 @@ const PostEdit = ({ posts, onUpdate }) => {
   };
 
   return (
-    <Container>
-      <Input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목을 입력하세요"
-      />
-      <Textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="내용을 입력하세요"
-      ></Textarea>
-      <button onClick={handleUpdate}>수정</button>
-    </Container>
+    <div className="inner">
+      <div className="post-add">
+        <div className="post-add__top">
+          <h2>글쓰기</h2>
+          <button className="btn" onClick={handleUpdate}>
+            수정
+          </button>
+
+          {/* 구현 보류 */}
+          <div className="form-group none">
+            <label htmlFor="category">카테고리</label>
+            <select id="category" name="category">
+              <option value="공지사항">공지사항</option>
+              <option value="자유게시판">자유게시판</option>
+              <option value="질문답변">질문답변</option>
+            </select>
+          </div>
+
+          <form className="form-group">
+            <label htmlFor="title">제목</label>
+            <input
+              type="text"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="제목을 입력하세요"
+            />
+            <label htmlFor="content">내용</label>
+            <textarea
+              value={content}
+              name="content"
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="내용을 입력하세요"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default PostEdit;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* 요소 간 간격 */
-
-  @media (max-width: 768px) {
-    /* 화면 너비가 768px 이하일 때 */
-    width: 90%; /* 컨테이너 너비 조절 */
-    margin: 0 auto; /* 가운데 정렬 */
-  }
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Textarea = styled.textarea`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical; /* 세로 크기 조절만 가능 */
-  min-height: 150px; /* 최소 높이 설정 */
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
