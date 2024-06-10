@@ -47,9 +47,11 @@ const CommentComponent = () => {
 
   return (
     <CommentContainer>
+      <label htmlFor="comment">댓글</label>
       <CommentInput
         type="text"
         value={comment}
+        id="comment"
         onChange={handleInputChange}
         placeholder="댓글을 입력하세요"
       />
