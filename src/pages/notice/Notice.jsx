@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-function Notice({ posts, onDelete }) {
+function Notice({ posts }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3); // 페이지당 게시물 수
+  const [postsPerPage] = useState(10); // 페이지당 게시물 수
   const [filteredPosts, setFilteredPosts] = useState(posts); // 검색 결과 필터링된 게시물
 
   const handleRowClick = (postId) => {
@@ -40,7 +40,7 @@ function Notice({ posts, onDelete }) {
   return (
     <BoardContainer>
       <h2>게시판</h2>
-      <input type="text" placeholder="검색어 입력" onChange={handleSearch} />
+      <WriteButton to="/notice/write">게시글 쓰기</WriteButton>
       <BoardTable>
         <thead>
           <tr>
@@ -68,6 +68,7 @@ function Notice({ posts, onDelete }) {
           ))}
         </tbody>
       </BoardTable>
+      <WriteButton to="/notice/write">게시글 쓰기</WriteButton>
       <Pagination>
         {pageNumbers.map((number) => (
           <button key={number} onClick={() => setCurrentPage(number)}>
@@ -75,7 +76,8 @@ function Notice({ posts, onDelete }) {
           </button>
         ))}
       </Pagination>
-      <WriteButton to="/notice/write">게시글 쓰기</WriteButton>
+      <input type="text" placeholder="검색어 입력" onChange={handleSearch} />
+      <button>검색</button>
     </BoardContainer>
   );
 }

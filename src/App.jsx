@@ -1,3 +1,5 @@
+import "./App.css";
+
 import { useRef, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { dummy } from "./api/dummy";
@@ -8,10 +10,10 @@ import SignupPage from "./pages/SignupPage";
 import { AuthProvider } from "./pages/AuthContext";
 
 import Home from "./pages/Home";
-import Notice from "./pages/Notice";
-import PostWrite from "./pages/PostWrite";
-import PostDetail from "./pages/PostDetail"; // 게시글 상세 페이지
-import PostEdit from "./pages/PostEdit";
+import Notice from "./pages/notice/Notice";
+import PostWrite from "./pages/notice/PostWrite";
+import PostDetail from "./pages/notice/PostDetail"; // 게시글 상세 페이지
+import PostEdit from "./pages/notice/PostEdit";
 
 function App() {
   const [posts, setPosts] = useState(dummy); // 게시글 데이터 상태

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "@emotion/styled";
-import CommentComponent from "./CommentContainer";
+import CommentComponent from "../CommentContainer";
 
 const PostDetail = ({ posts, onDelete }) => {
   const { postId } = useParams();
